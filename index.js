@@ -12,16 +12,16 @@ const { preguntar } = require("./preguntador/preguntador");
 (async () => {
   const { dniUsuario } = await preguntar(preguntarDNI);
   const idDuenyo = await buscarDuenyoPorDni(dniUsuario.toUpperCase());
-  const cosas = await preguntar(await preguntarOpciones());
-  console.log(cosas);
-  switch (cosas) {
-    case cosas.opcion === "listAllAnimals":
-      listarAnimales();
+  const respuestas = await preguntar(await preguntarOpciones());
+  console.log(respuestas);
+  switch (respuestas.opcion) {
+    case "listAllAnimals":
+      listarAnimales(idDuenyo);
       break;
-    case cosas.opcion === "listAllAnimalsFromSpecie":
-      listarAnimalesEpecie();
+    case "listAllAnimalsFromSpecie":
+      listarAnimalesEpecie(idDuenyo, respuestas.nombreEspecie);
       break;
-    case cosas.opcion === "adoptAnimal":
+    case respuestas.opcion === "adoptAnimal":
       listarAnimalesSinDueño();
       break;
     default:
