@@ -2,7 +2,7 @@ const { Op } = require("sequelize");
 const Animal = require("./bd/schemas/Animal");
 const Duenyo = require("./bd/schemas/Duenyo");
 
-const duenyo = async (dni) => {
+const buscarDuenyoPorDni = async (dni) => {
   try {
     const duenyos = await Duenyo.findOne({
       where: {
@@ -81,25 +81,10 @@ const listarAnimalesSinDueño = async () => {
   }));
 };
 
-const buscarDuenyoPorDni = (dni) => {
-  try {
-    Duenyo.findAll({
-      where: {
-        dni: {
-          [Op.eq]: dni,
-        },
-      },
-    });
-  } catch (err) {
-    console.log("No existe ningun usuario con ese dni");
-  }
-};
-
 module.exports = {
-  duenyo,
+  buscarDuenyoPorDni,
   adoptarAnimal,
   listarAnimales,
   listarAnimalesEpecie,
   listarAnimalesSinDueño,
-  buscarDuenyoPorDni,
 };

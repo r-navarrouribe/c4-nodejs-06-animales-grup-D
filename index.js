@@ -1,6 +1,6 @@
 const inquirer = require("inquirer");
 const {
-  duenyo,
+  buscarDuenyoPorDni,
   adoptarAnimal,
   listarAnimales,
   listarAnimalesEpecie,
@@ -11,7 +11,7 @@ const { preguntar } = require("./preguntador/preguntador");
 
 (async () => {
   const { dniUsuario } = await preguntar(preguntarDNI);
-  const idDuenyo = await duenyo(dniUsuario.toUpperCase());
+  const idDuenyo = await buscarDuenyoPorDni(dniUsuario.toUpperCase());
   const cosas = await preguntar(await preguntarOpciones());
   console.log(cosas);
   switch (cosas) {
