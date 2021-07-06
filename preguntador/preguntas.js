@@ -1,3 +1,5 @@
+const { listarAnimalesSinDueño } = require("../metodos");
+
 const preguntarDNI = [
   {
     name: "dniUsuario",
@@ -5,19 +7,6 @@ const preguntarDNI = [
     type: "input",
   },
 ];
-
-const listarAnimalesSinDueño = async () => {
-  const animalesSinDueño = await Animal.findAll({
-    where: {
-      id_duenyo: null,
-    },
-  });
-  // Devolver un array con objetos, cada objeto tiene una propiedad name: [nombreAnimal] y value:[idAnimal]
-  return animalesSinDueño.map((animal) => ({
-    name: animal.nombre,
-    value: animal.id,
-  }));
-};
 
 const preguntarOpciones = () => {
   const animalesParaAdoptar = listarAnimalesSinDueño();

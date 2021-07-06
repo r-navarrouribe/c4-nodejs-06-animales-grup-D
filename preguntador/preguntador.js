@@ -6,12 +6,12 @@ const preguntar = async (preguntas) => {
   return respuestas;
 };
 
-(async () => {
-  const { dniUsuario } = await preguntar(preguntarDNI);
-  // console.log(dniUsuario);
-  const respuestas = await preguntar(preguntarOpciones());
-  console.log(respuestas);
-})();
+// (async () => {
+//   const { dniUsuario } = await preguntar(preguntarDNI);
+//   // console.log(dniUsuario);
+//   const respuestas = await preguntar(preguntarOpciones());
+//   console.log(respuestas);
+// })();
 
 module.exports = {
   preguntar,
