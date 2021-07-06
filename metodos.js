@@ -4,40 +4,36 @@ const Duenyo = require("./bd/schemas/Duenyo");
 
 const duenyo = async (dni) => {
   try {
-    const duenyos = await Duenyo.findAll({
+    const duenyos = await Duenyo.findOne({
       where: {
         dni: {
           [Op.eq]: dni,
         },
       },
     });
-    return duenyos;
-  } catch (err) {
-    console.log("No existe ningun usuario con ese dni");
-    process.exit(0);
+    const idDuenyo = await duenyos.dataValues.id;
+    return idDuenyo;
+  } catch (e) {
+    console.log(`No existe un usuario con dni ${dni}`);
+    process.exit();
   }
 };
 
 // adoptar animal con id animal y dni dueño
 
 const adoptarAnimal = async (idDuenyo, idAnimal) => {
-  try {
-    const adoptar = await Animal.update(
-      {
-        id_duenyo: idDuenyo,
-      },
-      {
-        where: {
-          id: {
-            [Op.eq]: idAnimal,
-          },
+  const adoptar = await Animal.update(
+    {
+      id_duenyo: idDuenyo,
+    },
+    {
+      where: {
+        id: {
+          [Op.eq]: idAnimal,
         },
-      }
-    );
-  } catch (err) {
-    console.log("No se a podido adoptar");
-    console.log(err.message);
-  }
+      },
+    }
+  );
 };
 // Listar animales
 const listarAnimales = async (idDuenyo) => {
@@ -100,6 +96,8 @@ const buscarDuenyoPorDni = (dni) => {
 };
 
 module.exports = {
+  duenyo,
+  adoptarAnimal,
   listarAnimales,
   listarAnimalesEpecie,
   listarAnimalesSinDueño,
