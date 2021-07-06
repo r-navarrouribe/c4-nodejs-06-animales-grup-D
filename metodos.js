@@ -82,12 +82,37 @@ const listarAnimalesSinDueño = async () => {
   }));
 };
 
+const buscarAnimalPorChip = async (numeroChip, idDuenyo) => {
+  const animal = await Animal.findOne({
+    where: {
+      numero_chip: numeroChip,
+      id_duenyo: idDuenyo,
+    },
+  });
+  if (!animal) return null;
+  return animal.dataValues;
+};
+
+const cambiarNombreDuenyo = (nuevoNombre, idDuenyo) => {
+  Duenyo.update(
+    {
+      nombre: nuevoNombre,
+    },
+    {
+      where: {
+        id: idDuenyo,
+      },
+    }
+  );
+};
+
 const obtenerIdEspecie = async (nombreEspecie) => {
   const especie = await Especie.findOne({
     where: {
       nombre: nombreEspecie,
     },
   });
+  if (!especie) return null;
   return especie.dataValues.id;
 };
 
@@ -97,4 +122,6 @@ module.exports = {
   listarAnimales,
   listarAnimalesEpecie,
   listarAnimalesSinDueño,
+  buscarAnimalPorChip,
+  cambiarNombreDuenyo,
 };
