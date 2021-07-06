@@ -1,6 +1,7 @@
 const { Op } = require("sequelize");
 const Animal = require("./bd/schemas/Animal");
 const Duenyo = require("./bd/schemas/Duenyo");
+const Especie = require("./bd/schemas/Especie");
 
 const buscarDuenyoPorDni = async (dni) => {
   try {
@@ -42,13 +43,13 @@ const listarAnimales = async (idDuenyo) => {
       id_duenyo: idDuenyo,
     },
     order: [
-      ["especie", "ASC"],
+      ["id_especie", "ASC"],
       ["nombre", "ASC"],
     ],
   });
   for (const animal of animales) {
     console.log(
-      `Nombre: ${animal.nombre}. Edad: ${animal.edad}. Especie: ${animal.especie}. Chip: ${animal.chip}`
+      `Nombre: ${animal.nombre}. Edad: ${animal.edad}. Especie: ${animal.id_especie}. Chip: ${animal.chip}`
     );
   }
 };
@@ -57,13 +58,13 @@ const listarAnimalesEpecie = async (idDuenyo, especie) => {
   const animales = await Animal.findAll({
     where: {
       id_duenyo: idDuenyo,
-      especie,
+      id_especie: await obtenerIdEspecie(especie),
     },
-    order: ["nombre", "ASC"],
+    order: [["nombre", "ASC"]],
   });
   for (const animal of animales) {
     console.log(
-      `Nombre: ${animal.nombre}. Edad: ${animal.edad}. Especie: ${animal.especie}. Chip: ${animal.chip}`
+      `Nombre: ${animal.nombre}. Edad: ${animal.edad}. Especie: ${animal.id_especie}. Chip: ${animal.chip}`
     );
   }
 };
@@ -79,6 +80,15 @@ const listarAnimalesSinDueño = async () => {
     name: animal.nombre,
     value: animal.id,
   }));
+};
+
+const obtenerIdEspecie = async (nombreEspecie) => {
+  const especie = await Especie.findOne({
+    where: {
+      nombre: nombreEspecie,
+    },
+  });
+  return especie.dataValues.id;
 };
 
 module.exports = {
