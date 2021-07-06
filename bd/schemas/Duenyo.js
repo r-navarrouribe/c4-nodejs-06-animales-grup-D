@@ -29,7 +29,7 @@ const Duenyo = sequelize.define(
   },
   {
     tableName: "duenyos",
-    timestamp: false,
+    timestamps: false,
   }
 );
 
