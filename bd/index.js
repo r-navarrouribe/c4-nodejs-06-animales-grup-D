@@ -3,8 +3,8 @@ const { Sequelize } = require("sequelize");
 
 const sequelize = new Sequelize({
   host: "localhost",
-  username: process.env.USERNAME,
-  password: process.env.PASSWORD,
+  username: process.env.USERNAMEDB,
+  password: process.env.PASSWORDDB,
   database: process.env.DATABASE,
   dialect: "mysql",
 });

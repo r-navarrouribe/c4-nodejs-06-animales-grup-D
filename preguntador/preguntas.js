@@ -8,8 +8,8 @@ const preguntarDNI = [
   },
 ];
 
-const preguntarOpciones = () => {
-  const animalesParaAdoptar = listarAnimalesSinDueño();
+const preguntarOpciones = async () => {
+  const animalesParaAdoptar = await listarAnimalesSinDueño();
   return [
     {
       name: "opcion",

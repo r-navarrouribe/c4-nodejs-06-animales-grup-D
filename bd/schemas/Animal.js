@@ -32,7 +32,7 @@ const Animal = sequelize.define(
   },
   {
     tableName: "animales",
-    timestamp: false,
+    timestamps: false,
   }
 );
 
