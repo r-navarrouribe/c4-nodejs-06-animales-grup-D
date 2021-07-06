@@ -56,7 +56,7 @@ const preguntarOpciones = async () => {
       name: "idAnimalToAdopt",
       message: "Elige el animal que quieres adoptar:",
       type: "list",
-      choices: animalesParaAdoptar,
+      choices: await [...animalesParaAdoptar],
       when: (respuestasAnteriores) =>
         respuestasAnteriores.opcion === "adoptAnimal",
     },

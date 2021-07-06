@@ -49,7 +49,8 @@ const listarAnimales = async (idDuenyo) => {
   });
   for (const animal of animales) {
     console.log(
-      `Nombre: ${animal.nombre}. Edad: ${animal.edad}. Especie: ${animal.id_especie}. Chip: ${animal.chip}`
+      `Nombre: ${animal.nombre}. Edad: ${animal.edad}. Especie: ${animal.id_especie}. Chip: ${animal.numero_chip}`,
+      animal
     );
   }
 };
@@ -64,7 +65,7 @@ const listarAnimalesEpecie = async (idDuenyo, especie) => {
   });
   for (const animal of animales) {
     console.log(
-      `Nombre: ${animal.nombre}. Edad: ${animal.edad}. Especie: ${animal.id_especie}. Chip: ${animal.chip}`
+      `Nombre: ${animal.nombre}. Edad: ${animal.edad}. Especie: ${animal.id_especie}. Chip: ${animal.numero_chip}`
     );
   }
 };
