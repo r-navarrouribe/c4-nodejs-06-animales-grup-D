@@ -82,14 +82,25 @@ const listarAnimalesSinDueño = async () => {
   }));
 };
 
-const buscarAnimalPorChip = async (numeroChip, idDuenyo) => {
+const mostrarAnimalPorChip = async (numeroChipIntroducido, idDuenyo) => {
   const animal = await Animal.findOne({
     where: {
-      numero_chip: numeroChip,
+      numero_chip: numeroChipIntroducido,
       id_duenyo: idDuenyo,
     },
   });
-  if (!animal) return null;
+  if (!animal) return;
+  const {
+    dataValues: {
+      nombre,
+      edad,
+      id_especie: idEspecie,
+      numero_chip: numeroChip,
+    },
+  } = animal;
+  console.log(
+    `Nombre: ${nombre}. Edad: ${edad}. Especie: ${idEspecie}. Chip: ${numeroChip}`
+  );
   return animal.dataValues;
 };
 
@@ -122,6 +133,6 @@ module.exports = {
   listarAnimales,
   listarAnimalesEpecie,
   listarAnimalesSinDueño,
-  buscarAnimalPorChip,
+  mostrarAnimalPorChip,
   cambiarNombreDuenyo,
 };

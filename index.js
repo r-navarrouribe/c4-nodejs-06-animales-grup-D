@@ -1,11 +1,9 @@
-const inquirer = require("inquirer");
 const {
   buscarDuenyoPorDni,
   adoptarAnimal,
   listarAnimales,
   listarAnimalesEpecie,
-  listarAnimalesSinDueño,
-  buscarAnimalPorChip,
+  mostrarAnimalPorChip,
   cambiarNombreDuenyo,
 } = require("./metodos");
 const { preguntarDNI, preguntarOpciones } = require("./preguntador/preguntas");
@@ -15,7 +13,6 @@ const { preguntar } = require("./preguntador/preguntador");
   const { dniUsuario } = await preguntar(preguntarDNI);
   const idDuenyo = await buscarDuenyoPorDni(dniUsuario.toUpperCase());
   const respuestas = await preguntar(await preguntarOpciones());
-  console.log(respuestas);
   switch (respuestas.opcion) {
     case "listAllAnimals":
       listarAnimales(idDuenyo);
@@ -23,8 +20,16 @@ const { preguntar } = require("./preguntador/preguntador");
     case "listAllAnimalsFromSpecie":
       listarAnimalesEpecie(idDuenyo, respuestas.nombreEspecie);
       break;
-    case respuestas.opcion === "adoptAnimal":
-      listarAnimalesSinDueño();
+    case "showDataFromAnimal":
+      await mostrarAnimalPorChip(respuestas.chipAnimal, idDuenyo);
+      break;
+    case "adoptAnimal":
+      adoptarAnimal(idDuenyo, respuestas.idAnimalToAdopt);
+      console.log("Animal adoptado");
+      break;
+    case "changeName":
+      cambiarNombreDuenyo(respuestas.nuevoNombre, idDuenyo);
+      console.log("Nombre cambiado");
       break;
     default:
       break;
