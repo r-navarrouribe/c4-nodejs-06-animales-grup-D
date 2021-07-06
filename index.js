@@ -5,6 +5,8 @@ const {
   listarAnimales,
   listarAnimalesEpecie,
   listarAnimalesSinDueño,
+  buscarAnimalPorChip,
+  cambiarNombreDuenyo,
 } = require("./metodos");
 const { preguntarDNI, preguntarOpciones } = require("./preguntador/preguntas");
 const { preguntar } = require("./preguntador/preguntador");
