@@ -24,6 +24,10 @@ const { preguntar } = require("./preguntador/preguntador");
       await mostrarAnimalPorChip(respuestas.chipAnimal, idDuenyo);
       break;
     case "adoptAnimal":
+      if (!respuestas.idAnimalToAdopt) {
+        console.log("No hay animales que adoptar");
+        break;
+      }
       adoptarAnimal(idDuenyo, respuestas.idAnimalToAdopt);
       console.log("Animal adoptado");
       break;

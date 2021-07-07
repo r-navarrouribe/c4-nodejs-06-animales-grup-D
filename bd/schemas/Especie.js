@@ -21,7 +21,7 @@ const Especie = sequelize.define(
   }
 );
 
-Especie.hasMany(Animal, { foreignKey: "id" });
+Especie.hasMany(Animal, { foreignKey: "id_especie" });
 Animal.belongsTo(Especie, { foreignKey: "id_especie" });
 
 module.exports = Especie;

@@ -53,6 +53,10 @@ const listarAnimales = async (idDuenyo) => {
 
 const listarAnimalesEpecie = async (idDuenyo, especie) => {
   const animales = await Animal.findAll({
+    include: {
+      model: Especie,
+      required: true,
+    },
     where: {
       id_duenyo: idDuenyo,
       id_especie: await obtenerIdEspecie(especie),
@@ -61,7 +65,7 @@ const listarAnimalesEpecie = async (idDuenyo, especie) => {
   });
   for (const animal of animales) {
     console.log(
-      `Nombre: ${animal.nombre}. Edad: ${animal.edad}. Especie: ${animal.id_especie}. Chip: ${animal.numero_chip}`
+      `Nombre: ${animal.nombre}. Edad: ${animal.edad}. Especie: ${animal.Especie.nombre}. Chip: ${animal.numero_chip}`
     );
   }
 };
@@ -90,6 +94,7 @@ const mostrarAnimalPorChip = async (numeroChipIntroducido, idDuenyo) => {
   const animal = await Animal.findOne({
     include: {
       model: Especie,
+      required: true,
     },
     where: {
       numero_chip: numeroChipIntroducido,
@@ -100,19 +105,18 @@ const mostrarAnimalPorChip = async (numeroChipIntroducido, idDuenyo) => {
     console.log(`No existe el animal con el chip ${numeroChipIntroducido}`);
     return;
   }
+  console.log(animal);
   const {
-    dataValues: {
-      nombre,
-      edad,
-      Especie: { nombre: nombreEspecie },
-      id_especie: idEspecie,
-      numero_chip: numeroChip,
-    },
+    nombre,
+    edad,
+    Especie: { nombre: nombreEspecie },
+    id_especie: idEspecie,
+    numero_chip: numeroChip,
   } = animal;
   console.log(
     `Nombre: ${nombre}. Edad: ${edad}. Especie: ${nombreEspecie}. Chip: ${numeroChip}`
   );
-  return animal.dataValues;
+  return animal;
 };
 
 const cambiarNombreDuenyo = (nuevoNombre, idDuenyo) => {
