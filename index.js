@@ -6,6 +6,7 @@ const {
   mostrarAnimalPorChip,
   cambiarNombreDuenyo,
 } = require("./metodos");
+require("./servidor/index");
 const { preguntarDNI, preguntarOpciones } = require("./preguntador/preguntas");
 const { preguntar } = require("./preguntador/preguntador");
 
