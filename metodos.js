@@ -4,18 +4,12 @@ const Duenyo = require("./bd/schemas/Duenyo");
 const Especie = require("./bd/schemas/Especie");
 
 const buscarDuenyoPorDni = async (dni) => {
-  try {
-    const duenyos = await Duenyo.findOne({
-      where: {
-        dni,
-      },
-    });
-    const idDuenyo = await duenyos.id;
-    return idDuenyo;
-  } catch (e) {
-    console.log(`No existe un usuario con dni ${dni}`);
-    process.exit();
-  }
+  const duenyo = await Duenyo.findOne({
+    where: {
+      dni,
+    },
+  });
+  return duenyo;
 };
 
 // adoptar animal con id animal y dni dueño
