@@ -10,7 +10,6 @@ const preguntarDNI = [
 
 const preguntarOpciones = async () => {
   const animalesParaAdoptar = await listarAnimalesSinDueño();
-  console.log(animalesParaAdoptar);
   return [
     {
       name: "opcion",
@@ -57,7 +56,13 @@ const preguntarOpciones = async () => {
       name: "idAnimalToAdopt",
       message: "Elige el animal que quieres adoptar:",
       type: "list",
-      choices: animalesParaAdoptar,
+      choices: animalesParaAdoptar.map(
+        (animal) => ({
+          name: animal.nombre,
+          value: animal.id,
+        })
+        // Devolver un array con objetos, cada objeto tiene una propiedad name: [nombreAnimal] y value:[idAnimal]
+      ),
       when: (respuestasAnteriores) =>
         respuestasAnteriores.opcion === "adoptAnimal" &&
         animalesParaAdoptar.length !== 0,

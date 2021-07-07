@@ -25,6 +25,7 @@ const adoptarAnimal = async (idDuenyo, idAnimal) => {
       },
     }
   );
+  return adoptar;
 };
 // Listar animales
 const listarAnimales = async (idDuenyo) => {
@@ -49,6 +50,16 @@ const listarAnimales = async (idDuenyo) => {
   }
 };
 
+const obtenerIdEspecie = async (nombreEspecie) => {
+  const especie = await Especie.findOne({
+    where: {
+      nombre: nombreEspecie,
+    },
+  });
+  if (!especie) return null;
+  return especie.id;
+};
+
 const listarAnimalesEpecie = async (idDuenyo, especie) => {
   const animales = await Animal.findAll({
     include: {
@@ -56,7 +67,7 @@ const listarAnimalesEpecie = async (idDuenyo, especie) => {
       required: true,
     },
     where: {
-      id_duenyo: idDuenyo,
+      id_duenyo: +idDuenyo,
       id_especie: await obtenerIdEspecie(especie),
     },
     order: [["nombre", "ASC"]],
@@ -66,10 +77,15 @@ const listarAnimalesEpecie = async (idDuenyo, especie) => {
       `Nombre: ${animal.nombre}. Edad: ${animal.edad}. Especie: ${animal.Especie.nombre}. Chip: ${animal.numero_chip}`
     );
   }
+  return animales;
 };
 
 const listarAnimalesSinDueño = async () => {
   const animalesSinDueño = await Animal.findAll({
+    include: {
+      model: Especie,
+      required: true,
+    },
     where: {
       id_duenyo: null,
     },
@@ -78,16 +94,18 @@ const listarAnimalesSinDueño = async () => {
     console.log("No hay animales para adoptar");
     return;
   }
-  const animal = animalesSinDueño.map(
-    (animal) => ({
-      name: animal.nombre,
-      value: animal.id,
-    })
-    // Devolver un array con objetos, cada objeto tiene una propiedad name: [nombreAnimal] y value:[idAnimal]
-  );
+  return animalesSinDueño;
+};
+// Listar animal por id
+
+const listarAnimalId = async (id) => {
+  const animal = await Animal.findOne({
+    where: {
+      id,
+    },
+  });
   return animal;
 };
-
 const mostrarAnimalPorChip = async (numeroChipIntroducido, idDuenyo) => {
   const animal = await Animal.findOne({
     include: {
@@ -103,7 +121,6 @@ const mostrarAnimalPorChip = async (numeroChipIntroducido, idDuenyo) => {
     console.log(`No existe el animal con el chip ${numeroChipIntroducido}`);
     return;
   }
-  console.log(animal);
   const {
     nombre,
     edad,
@@ -130,18 +147,24 @@ const cambiarNombreDuenyo = (nuevoNombre, idDuenyo) => {
   );
 };
 
-const obtenerIdEspecie = async (nombreEspecie) => {
-  const especie = await Especie.findOne({
-    where: {
-      nombre: nombreEspecie,
-    },
-  });
-  if (!especie) return null;
-  return especie.dataValues.id;
+const listar = (lista) => {
+  // map para no hacer dry que no funciona
+  lista.map(
+    ({
+      id,
+      nombre,
+      edad,
+      numero_chip: chip,
+      Especie: { nombre: nombreEpecie },
+    }) =>
+      `\nid: ${id} - Nombre:  ${nombre} - Especie: ${nombreEpecie} - Edad:  ${edad} - Numero de chip:  ${chip}`
+  );
+  return lista;
 };
-
 module.exports = {
+  listar,
   buscarDuenyoPorDni,
+  listarAnimalId,
   adoptarAnimal,
   listarAnimales,
   listarAnimalesEpecie,
