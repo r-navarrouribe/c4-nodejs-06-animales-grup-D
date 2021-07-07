@@ -10,6 +10,7 @@ const preguntarDNI = [
 
 const preguntarOpciones = async () => {
   const animalesParaAdoptar = await listarAnimalesSinDueño();
+  console.log(animalesParaAdoptar);
   return [
     {
       name: "opcion",
@@ -58,7 +59,8 @@ const preguntarOpciones = async () => {
       type: "list",
       choices: animalesParaAdoptar,
       when: (respuestasAnteriores) =>
-        respuestasAnteriores.opcion === "adoptAnimal",
+        respuestasAnteriores.opcion === "adoptAnimal" &&
+        animalesParaAdoptar.length !== 0,
     },
     {
       name: "nuevoNombre",
