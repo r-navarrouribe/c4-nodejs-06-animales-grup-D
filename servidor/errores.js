@@ -8,6 +8,16 @@ const errorServidor = (err, puerto) => {
   }
 };
 
+const error404 = (req, res, next) => {
+  res.status(404).json({ error: true, mensaje: "Recurso no encontrado" });
+};
+
+const errorGeneral = (err, req, res, next) => {
+  res.status(500).json({ error: true, mensaje: "Error general" });
+};
+
 module.exports = {
   errorServidor,
+  error404,
+  errorGeneral,
 };
