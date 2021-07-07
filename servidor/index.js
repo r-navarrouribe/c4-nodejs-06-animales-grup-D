@@ -1,10 +1,13 @@
-const express = require("express");
 
-const app = express();
-const rutaAdoptar = require("./rutas/adoptar");
+const morganFreeman = require("morgan");
+const app = require("./init");
+const rutasAnimales = require("./rutas/animales");
+const rutasUsuarios = require("./rutas/usuarios");
+const { error404, errorGeneral } = require("./errores");
 
-const server = app.listen(5000, () => {
-  console.log("Se ha iniciado el servidor");
-});
+app.use(morganFreeman("dev"));
+app.use("/animales", rutasAnimales);
+app.use("/usuarios", rutasUsuarios);
+app.use(error404);
+app.use(errorGeneral);
 
-app.use("/animales", rutaAdoptar);

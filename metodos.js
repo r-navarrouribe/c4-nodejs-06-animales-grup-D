@@ -35,6 +35,10 @@ const adoptarAnimal = async (idDuenyo, idAnimal) => {
 // Listar animales
 const listarAnimales = async (idDuenyo) => {
   const animales = await Animal.findAll({
+    include: {
+      model: Especie,
+      required: true,
+    },
     where: {
       id_duenyo: idDuenyo,
     },
@@ -45,7 +49,7 @@ const listarAnimales = async (idDuenyo) => {
   });
   for (const animal of animales) {
     console.log(
-      `Nombre: ${animal.nombre}. Edad: ${animal.edad}. Especie: ${animal.id_especie}. Chip: ${animal.numero_chip}`,
+      `Nombre: ${animal.nombre}. Edad: ${animal.edad}. Especie: ${animal.Especie.nombre}. Chip: ${animal.numero_chip}`,
       animal
     );
   }
