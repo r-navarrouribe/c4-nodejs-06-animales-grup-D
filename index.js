@@ -11,28 +11,33 @@ const { preguntar } = require("./preguntador/preguntador");
 
 (async () => {
   const { dniUsuario } = await preguntar(preguntarDNI);
-  const idDuenyo = await buscarDuenyoPorDni(dniUsuario.toUpperCase());
+  const duenyo = await buscarDuenyoPorDni(dniUsuario.toUpperCase());
+  console.log(duenyo);
+  if (duenyo === null) {
+    console.log("No existe un usuario con ese DNI");
+    process.exit(0);
+  }
   const respuestas = await preguntar(await preguntarOpciones());
   switch (respuestas.opcion) {
     case "listAllAnimals":
-      listarAnimales(idDuenyo);
+      listarAnimales(duenyo.id);
       break;
     case "listAllAnimalsFromSpecie":
-      listarAnimalesEpecie(idDuenyo, respuestas.nombreEspecie);
+      listarAnimalesEpecie(duenyo.id, respuestas.nombreEspecie);
       break;
     case "showDataFromAnimal":
-      await mostrarAnimalPorChip(respuestas.chipAnimal, idDuenyo);
+      await mostrarAnimalPorChip(respuestas.chipAnimal, duenyo.id);
       break;
     case "adoptAnimal":
       if (!respuestas.idAnimalToAdopt) {
         console.log("No hay animales que adoptar");
         break;
       }
-      adoptarAnimal(idDuenyo, respuestas.idAnimalToAdopt);
+      adoptarAnimal(duenyo.id, respuestas.idAnimalToAdopt);
       console.log("Animal adoptado");
       break;
     case "changeName":
-      cambiarNombreDuenyo(respuestas.nuevoNombre, idDuenyo);
+      cambiarNombreDuenyo(respuestas.nuevoNombre, duenyo.id);
       console.log("Nombre cambiado");
       break;
     default:
