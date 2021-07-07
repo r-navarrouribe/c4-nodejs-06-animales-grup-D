@@ -7,12 +7,10 @@ const buscarDuenyoPorDni = async (dni) => {
   try {
     const duenyos = await Duenyo.findOne({
       where: {
-        dni: {
-          [Op.eq]: dni,
-        },
+        dni,
       },
     });
-    const idDuenyo = await duenyos.dataValues.id;
+    const idDuenyo = await duenyos.id;
     return idDuenyo;
   } catch (e) {
     console.log(`No existe un usuario con dni ${dni}`);
@@ -29,9 +27,7 @@ const adoptarAnimal = async (idDuenyo, idAnimal) => {
     },
     {
       where: {
-        id: {
-          [Op.eq]: idAnimal,
-        },
+        id: idAnimal,
       },
     }
   );
@@ -76,31 +72,45 @@ const listarAnimalesSinDueño = async () => {
       id_duenyo: null,
     },
   });
-  // Devolver un array con objetos, cada objeto tiene una propiedad name: [nombreAnimal] y value:[idAnimal]
-  return animalesSinDueño.map((animal) => ({
-    name: animal.nombre,
-    value: animal.id,
-  }));
+  if (!animalesSinDueño) {
+    console.log("No hay animales para adoptar");
+    return;
+  }
+  const animal = animalesSinDueño.map(
+    (animal) => ({
+      name: animal.nombre,
+      value: animal.id,
+    })
+    // Devolver un array con objetos, cada objeto tiene una propiedad name: [nombreAnimal] y value:[idAnimal]
+  );
+  return animal;
 };
 
 const mostrarAnimalPorChip = async (numeroChipIntroducido, idDuenyo) => {
   const animal = await Animal.findOne({
+    include: {
+      model: Especie,
+    },
     where: {
       numero_chip: numeroChipIntroducido,
       id_duenyo: idDuenyo,
     },
   });
-  if (!animal) return;
+  if (!animal) {
+    console.log(`No existe el animal con el chip ${numeroChipIntroducido}`);
+    return;
+  }
   const {
     dataValues: {
       nombre,
       edad,
+      Especie: { nombre: nombreEspecie },
       id_especie: idEspecie,
       numero_chip: numeroChip,
     },
   } = animal;
   console.log(
-    `Nombre: ${nombre}. Edad: ${edad}. Especie: ${idEspecie}. Chip: ${numeroChip}`
+    `Nombre: ${nombre}. Edad: ${edad}. Especie: ${nombreEspecie}. Chip: ${numeroChip}`
   );
   return animal.dataValues;
 };
