@@ -8,6 +8,6 @@ app.use(morganFreeman("dev"));
 app.use(express.json());
 
 app.use("/animales", rutasAnimales);
-app.use("/usuarios", rutasUsuarios);
+/* app.use("/usuarios", rutasUsuarios); */
 app.use(error404);
 app.use(errorGeneral);
