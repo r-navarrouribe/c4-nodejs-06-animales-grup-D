@@ -16,4 +16,4 @@ const server = app.listen(puerto, () => {
 
 server.on("error", (err) => errorServidor(err, puerto));
 
-module.exports = app;
+module.exports = { app, express };
