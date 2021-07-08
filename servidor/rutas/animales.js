@@ -47,17 +47,24 @@ router.get("/especie/:dni/:especie", async (req, res, next) => {
   const { dni, especie } = req.params;
   const { id } = await buscarDuenyoPorDni(dni);
   const animalEspeciePorDuenyo = await listarAnimalesEpecie(id, especie);
-  const animalesListados = animalEspeciePorDuenyo.map(
-    ({
-      id,
-      nombre,
-      edad,
-      numero_chip: chip,
-      Especie: { nombre: nombreEpecie },
-    }) =>
-      `\nid: ${id} - Nombre:  ${nombre} - Especie: ${nombreEpecie} - Edad:  ${edad} - Numero de chip:  ${chip}`
-  );
-  res.send(`Los animales de la especie ${especie} son: ${animalesListados}`);
+  console.log(animalEspeciePorDuenyo);
+  if (animalEspeciePorDuenyo.length !== 0) {
+    const animalesListados = animalEspeciePorDuenyo.map(
+      ({
+        id,
+        nombre,
+        edad,
+        numero_chip: chip,
+        Especie: { nombre: nombreEpecie },
+      }) =>
+        `\nid: ${id} - Nombre:  ${nombre} - Especie: ${nombreEpecie} - Edad:  ${edad} - Numero de chip:  ${chip}`
+    );
+    res.send(`Los animales de la especie ${especie} son: ${animalesListados}`);
+  } else {
+    res.send(
+      `El duenyo con dni ${dni.toUpperCase()} no tiene animales de la especie ${especie.toLocaleLowerCase()}`
+    );
+  }
 });
 
 router.get("/", async (req, res, next) => {
