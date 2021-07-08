@@ -13,8 +13,7 @@ const router = express.Router();
 
 router.get("/adoptar/", async (req, res, next) => {
   const animalesSinDueño = await listarAnimalesSinDueño();
-  if (animalesSinDueño === []) {
-    // no funciona el if
+  if (animalesSinDueño.length === 0) {
     res.send("No hay animales para adoptar");
   } else {
     const animalesListados = animalesSinDueño.map(
