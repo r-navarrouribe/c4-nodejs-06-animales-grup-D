@@ -35,8 +35,7 @@ router.get("/adoptar/:dni/:idAnimal", async (req, res, next) => {
   const { id } = await buscarDuenyoPorDni(dni);
   const adoptar = await adoptarAnimal(id, idAnimal);
   console.log(adoptar);
-  if (adoptar === 1) {
-    // no funciona el if
+  if (adoptar[0] === 1) {
     const animalAdoptado = await listarAnimalId(idAnimal);
     res.send(`Has adoptado a ${animalAdoptado.nombre} `);
   } else {
